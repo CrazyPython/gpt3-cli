@@ -1,0 +1,68 @@
+#!/bin/bash
+set -ef -o pipefail
+# Inherit defaults from env variables for easy scripting
+
+[ -z "$ENGINE" ] && ENGINE=davinci
+[ -z "$TEMPERATURE"  ] && TEMPERATURE=0.5
+[ -z "$FREQ_PENALTY" ] && FREQ_PENALTY=0
+[ -z "$PRES_PENALTY" ] && PRES_PENALTY=0
+
+PARAMS=""
+while (( "$#" )); do
+  case "$1" in
+    -e|--engine)
+      if [ -n "$2" ] && [ ${2:0:1} != "-" ]; then
+        ENGINE=$2; shift 2
+      else
+        echo "Error: Argument for $1 is missing" >&2
+        exit 1
+      fi
+      ;;
+    -t|--temperature)
+      if [ -n "$2" ] && [ ${2:0:1} != "-" ]; then
+        TEMPERATURE=$2; shift 2
+      else
+        echo "Error: Argument for $1 is missing" >&2
+        exit 1
+      fi
+      ;;
+    -f|--freq-penalty)
+      if [ -n "$2" ] && [ ${2:0:1} != "-" ]; then
+        FREQ_PENALTY=$2; shift 2
+      else
+        echo "Error: Argument for $1 is missing" >&2
+        exit 1
+      fi
+      ;;
+    -p|--pres-penalty)
+      if [ -n "$2" ] && [ ${2:0:1} != "-" ]; then
+        FREQ_PENALTY=$2; shift 2
+      else
+        echo "Error: Argument for $1 is missing" >&2
+        exit 1
+      fi
+      ;;
+    -*|--*=) # unsupported flags
+      echo "Error: Unsupported flag $1" >&2
+      exit 1
+      ;;
+    *) # preserve positional arguments
+      PARAMS="$PARAMS $1"
+      shift
+      ;;
+  esac
+done
+# set positional arguments in their proper place
+eval set -- "$PARAMS"
+
+[ -z "$2" ] && MAX_TOKENS=64 || MAX_TOKENS=$2 
+
+# FIXME: Improve error handling
+curl -sS -N -G https://api.openai.com/v1/engines/${ENGINE}/completions/browser_stream \
+  --data-urlencode prompt="$1" \
+  --data-urlencode max_tokens="$MAX_TOKENS" \
+  --data-urlencode frequency_penalty="$FREQ_PENALTY" \
+  --data-urlencode presence_penalty="$PRES_PENALTY" \
+  -H "Authorization: Bearer $OPENAI_KEY" | sed -l 's/data: //' | grep --line-buffer -v '^\[DONE\]$' | jq -j --unbuffered '.choices[0].text' 
+# Add trailing newline
+echo
