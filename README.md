@@ -23,12 +23,14 @@ echo 'export OPENAI_KEY="'$(printf "Your OpenAPI Key: " >&2; head -n 1)'"'  >> ~
 ```
 
 Type `source ~/.bash_profile` to get it working immediately without a shell restart.
-Usage summary: Inside the brackets means "optional"
+
+## Usage summary
+Inside the brackets means "optional"
 ```
 gpt3 [parameters] "prompt" [max_tokens]
 ```
 
-## Parameters
+## `[parameters]`
 Set OPENAI_KEY as an environment variable
 Can be passed via the command-line, or via environment variables. command-line options override environment variables. Environment variables are used for defaults in scripts and environments.
 
