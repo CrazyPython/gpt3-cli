@@ -44,12 +44,15 @@ Defaults to OpenAI's defaults.
 ### Basic usage
 
 ```
-gpt3 --engine ada --temperature 0.5 --freq-penalty 1 --pres-penalty 1
+gpt3 --engine ada --temperature 0.5 --freq-penalty 1 --pres-penalty 1 "As Descartes said, I think therefore"
 ``` 
+
+The prompt of the above command is "As Descartes said, I think therefore".
+
 Shorthand version of the same above command:
 
 ```
-gpt3 -e ada -t 0.5 -f 1 -p 1
+gpt3 -e ada -t 0.5 -f 1 -p 1 "As Descartes said, I think therefore"
 ```
 
 
