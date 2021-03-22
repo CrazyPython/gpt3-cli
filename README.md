@@ -2,12 +2,13 @@
 Command-line interface for OpenAI's GPT-3
 ### Usecases
  * Use GPT-3 distraction-free: Just you and the terminal
- * Distraction-free
+ * Command-line remembers your past prompts and output history
 ### Features
  - [x] Streaming
+ - [x] Any temperature up to 2.0 (unlike Playground)  
+ - [x] Any presence and frequency penalty up to 2.0
  - [x] Easy to install
  - [x] Documentation
- - [x] Any temperature up to 2.0 (unlike the Playground)  
  - [ ] Proper error echoing
  - [ ] Search endpoint
 
