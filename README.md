@@ -44,15 +44,16 @@ Defaults to OpenAI's defaults.
 ### Basic usage
 
 ```
-gpt3 --engine ada --temperature 0.5 --freq-penalty 1 --pres-penalty 1 "As Descartes said, I think therefore"
+gpt3 --engine ada --temperature 0.5 --freq-penalty 1 --pres-penalty 1 "As Descartes said, I think therefore" 2
 ``` 
 
 The prompt of the above command is "As Descartes said, I think therefore".
+The max tokens of the above command is 2.
 
 Shorthand version of the same above command:
 
 ```
-gpt3 -e ada -t 0.5 -f 1 -p 1 "As Descartes said, I think therefore"
+gpt3 -e ada -t 0.5 -f 1 -p 1 "As Descartes said, I think therefore" 2
 ```
 
 
@@ -66,10 +67,12 @@ export PRES_PENALTY=1
 ```
 
 ## License
-**N.B.** You have the full right to base any closed-source or open-source program on this software if it remains on your own, your company's, or your company's contractors computers and cloud servers. (In other words, you can use this to build a closed-source SaaS.) If you distribute a program to a third-party end-user, you are required to give them the source code. The requirement to share source code only applies when distributed to other people. This is the GPLv3's private use clause
+**N.B.** You have the full right to base any closed-source or open-source program on this software if it remains on your own, your company's, or your company's contractors computers and cloud servers. (In other words, you can use this to build a closed-source SaaS.) If you distribute a program to a third-party end-user, you are required to give them the source code. The requirement to share source code only applies when distributed to other people. This is the GPLv3's private use clause.
 The intent is to ensure GPT-3 developer tools remain [open-source](https://www.gnu.org/philosophy/free-sw.en.html). OpenAI asks that end-users of products that use GPT-3 products be shielded from direct API access, so this license should not impose any restriction. A copy of the private use exception is copied below:
 > All rights granted under this License are granted for the term of copyright on the Program, and are irrevocable provided the stated conditions are met. This License explicitly affirms your unlimited permission to run the unmodified Program. The output from running a covered work is covered by this License only if the output, given its content, constitutes a covered work. This License acknowledges your rights of fair use or other equivalent, as provided by copyright law.
 > You may make, run and propagate covered works that you do not convey, without conditions so long as your license otherwise remains in force. You may convey covered works to others for the sole purpose of having them make modifications exclusively for you, or provide you with facilities for running those works, provided that you comply with the terms of this License in conveying all material for which you do not control copyright. Those thus making or running the covered works for you must do so exclusively on your behalf, under your direction and control, on terms that prohibit them from making any copies of your copyrighted material outside their relationship with you.
+
+F
 
 AGPLv3.
 
