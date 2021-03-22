@@ -18,13 +18,43 @@ echo 'export OPENAI_KEY="'$(printf "Your OpenAPI Key: " >&2; head -n 1)'"'  >> ~
 
 Type `source ~/.bash_profile` to get it working immediately without a shell restart.
 Usage summary: Inside the brackets means "optional"
-`gpt3 [parameters] "prompt" [max_tokens]`
+```
+gpt3 [parameters] "prompt" [max_tokens]
+```
+
 ## Parameters
 Set OPENAI_KEY as an environment variable
 Can be passed via the command-line, or via environment variables. command-line options override environment variables. Environment variables are used for defaults in scripts and environments.
 
+- `-e`/`--engine` - or the `ENGINE` environment variable
+- `-t`/`--temperature` - or the `TEMPERATURE` environment variable
+- `-f`/`--freq-penalty` - or the `FREQ_PENALTY` environment variable
+- `-p`/`--pres-penalty` - or the `PRES_PENALTY` environment variable
+
+Defaults to OpenAI's defaults.
 
 ## Examples
+
+### Basic usage
+
+```
+gpt3 --engine ada --temperature 0.5 --freq-penalty 1 --pres-penalty 1
+``` 
+Shorthand version of the same above command:
+
+```
+gpt3 -e ada -t 0.5 -f 1 -p 1
+``
+
+
+### Setting global defaults to frequency and presency penalty 1
+
+Add these lines to your `~/.bash_profile`:
+
+```
+export FREQ_PENALTY=1
+export PRES_PENALTY=1
+```
 
 ## License
 **N.B.** You have the full right to base any closed-source or open-source program on this software if it remains on your own, your company's, or your company's contractors computers and cloud servers. (In other words, you can use this to build a closed-source SaaS.) If you distribute a program to a third-party end-user, you are required to give them the source code. The requirement to share source code only applies when distributed to other people. This is the GPLv3's private use clause
