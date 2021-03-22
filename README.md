@@ -14,7 +14,7 @@ Command-line interface for OpenAI's GPT-3
 
 ### Installation
 0. If you are on Windows, install [Git for Windows](https://gitforwindows.org)
-1. Install https://stedolan.github.io/jq/
+1. Install [jq](https://stedolan.github.io/jq/download/)
 2. Run these commands
 ```
 git clone https://github.com/CrazyPython/gpt3-cli.git
