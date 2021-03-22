@@ -7,55 +7,38 @@ set -ef -o pipefail
 [ -z "$FREQ_PENALTY" ] && FREQ_PENALTY=0
 [ -z "$PRES_PENALTY" ] && PRES_PENALTY=0
 
-PARAMS=""
-while (( "$#" )); do
-  case "$1" in
+POSITIONAL=()
+while [[ $# -gt 0 ]]; do
+key="$1"
+case $key in
     -e|--engine)
-      if [ -n "$2" ] && [ ${2:0:1} != "-" ]; then
-        ENGINE=$2; shift 2
-      else
-        echo "Error: Argument for $1 is missing" >&2
-        exit 1
-      fi
-      ;;
+    ENGINE="$2"
+    shift # past argument
+    shift # past value
+    ;;
     -t|--temperature)
-      if [ -n "$2" ] && [ ${2:0:1} != "-" ]; then
-        TEMPERATURE=$2; shift 2
-      else
-        echo "Error: Argument for $1 is missing" >&2
-        exit 1
-      fi
-      ;;
+    TEMPERATURE="$2"
+    shift # past argument
+    shift # past value
+    ;;
     -f|--freq-penalty)
-      if [ -n "$2" ] && [ ${2:0:1} != "-" ]; then
-        FREQ_PENALTY=$2; shift 2
-      else
-        echo "Error: Argument for $1 is missing" >&2
-        exit 1
-      fi
-      ;;
+    FREQ_PENALTY="$2"
+    shift # past argument
+    shift # past value
+    ;;
     -p|--pres-penalty)
-      if [ -n "$2" ] && [ ${2:0:1} != "-" ]; then
-        FREQ_PENALTY=$2; shift 2
-      else
-        echo "Error: Argument for $1 is missing" >&2
-        exit 1
-      fi
-      ;;
-    -*|--*=) # unsupported flags
-      echo "Error: Unsupported flag $1" >&2
-      exit 1
-      ;;
-    *) # preserve positional arguments
-      PARAMS="$PARAMS $1"
-      shift
-      ;;
-  esac
+    PRES_PENALTY="$2"
+    shift # past argument
+    shift # past value
+    ;;
+    *)    # unknown option
+    POSITIONAL+=("$1") # save it in an array for later
+    shift # past argument
+    ;;
+esac
 done
-# set positional arguments in their proper place
-eval set -- "$PARAMS"
-
-[ -z "$2" ] && MAX_TOKENS=64 || MAX_TOKENS=$2 
+set -- "${POSITIONAL[@]}" # restore positional parameter
+[ -z "$2" ] && MAX_TOKENS=64 || MAX_TOKENS="$2"
 
 # FIXME: Improve error handling
 curl -sS -N -G https://api.openai.com/v1/engines/${ENGINE}/completions/browser_stream \
