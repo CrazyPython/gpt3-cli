@@ -46,7 +46,8 @@ Defaults to OpenAI's defaults.
 ### Basic usage
 
 ```
-gpt3 --engine ada --temperature 0.5 --freq-penalty 1 --pres-penalty 1 "As Descartes said, I think therefore" 2
+gpt3 --engine ada --temperature 0.5 --freq-penalty 1 --pres-penalty 1 \
+    "As Descartes said, I think therefore" 2
 ``` 
 
 The prompt of the above command is "As Descartes said, I think therefore".
