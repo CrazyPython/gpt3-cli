@@ -44,7 +44,7 @@ Shorthand version of the same above command:
 
 ```
 gpt3 -e ada -t 0.5 -f 1 -p 1
-``
+```
 
 
 ### Setting global defaults to frequency and presency penalty 1
