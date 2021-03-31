@@ -15,7 +15,7 @@ Command-line interface for OpenAI's GPT-3
 ### Installation
 0. If you are on Windows, install [Git for Windows](https://gitforwindows.org)
 1. Install [jq](https://stedolan.github.io/jq/download/)
-2. Run these commands
+2. Run these commands (on macOS, at the built-in Terminal app. on Windows, at Git Bash)
 ```
 git clone https://github.com/CrazyPython/gpt3-cli.git
 echo "export PATH=\"$(realpath gpt3-cli):\$PATH\"" >> ~/.bash_profile
