@@ -1,8 +1,9 @@
 # gpt3-cli
-Command-line interface for OpenAI's GPT-3
+Streaming command-line interface for OpenAI's GPT-3
 ### Usecases
  * Use GPT-3 distraction-free: Just you and the terminal
  * Command-line remembers your past prompts and output history
+ * Command-line streams just like the Playground
 ### Features
  - [x] Streaming
  - [x] Any temperature up to 2.0 (unlike Playground)  
@@ -68,6 +69,9 @@ Add these lines to your `~/.bash_profile`:
 export FREQ_PENALTY=1
 export PRES_PENALTY=1
 ```
+
+## File upload via CLI
+Try [OpenAI's Python tool.](https://github.com/openai/openai-python#openai-python-library)
 
 ## License
 **N.B.** You have the full right to base any closed-source or open-source program on this software if it remains on your own, your company's, or your company's contractors computers and cloud servers. (In other words, you can use this to build a closed-source SaaS.) If you distribute a program to a third-party end-user, you are required to give them the source code. The requirement to share source code only applies when distributed to other people. This is the GPLv3's private use clause.
