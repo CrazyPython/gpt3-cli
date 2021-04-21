@@ -3,7 +3,7 @@
 function help() {
     cat << EndOfHelp
 Convert a file to OpenAI format, as a single line of a JSON lines file.
-Concatenate multiple file into one, or use this tool to upload directly.
+Concatenate multiple files into one, or use this tool to upload directly.
 Usage:
   echo filename.txt | to-openai-file
   ls -1 myfolder | xargs -I _ -L1 sh -c "cat _ | to-openai-file"
