@@ -19,7 +19,7 @@ Command-line interface for OpenAI's GPT-3
 ```
 git clone https://github.com/CrazyPython/gpt3-cli.git
 echo "export PATH=\"$(realpath gpt3-cli):\$PATH\"" >> ~/.bash_profile
-echo 'export OPENAI_KEY="'$(printf "Your OpenAPI Key: " >&2; head -n 1)'"'  >> ~/.bash_profile
+echo 'export OPENAI_API_KEY="'$(printf "Your OpenAPI Key: " >&2; head -n 1)'"'  >> ~/.bash_profile
 ```
 
 Type `source ~/.bash_profile` to get it working immediately without a shell restart.
