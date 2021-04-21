@@ -76,7 +76,7 @@ export PRES_PENALTY=1
 2. `cd myproject`
 3. Make a new file, input1.txt with your favorite editor
 4. Make a new file, prompt.txt with your favorite editor
-5. Run `gpt3 -e davinci-instruct-beta $(cat input.txt prompt.txt) 100`
+5. Run `gpt3 -e davinci-instruct-beta "$(cat input.txt prompt.txt)" 100`
 
 This concatenates the input and the prompt together, input first, prompt second,and streams the result with 100 max tokens.
 
