@@ -70,6 +70,16 @@ export FREQ_PENALTY=1
 export PRES_PENALTY=1
 ```
 
+### Keep your input and prompt separate and concatenate them togehter
+
+1. Make a folder, "myproject"
+2. `cd myproject`
+3. Make a new file, input1.txt with your favorite editor
+4. Make a new file, prompt.txt with your favorite editor
+5. Run `gpt3 -e davinci-instruct-beta $(cat input.txt prompt.txt) 100`
+
+This concatenates the input and the prompt together, input first, prompt second,and streams the result with 100 max tokens.
+
 ## File upload via CLI
 Try [OpenAI's Python tool.](https://github.com/openai/openai-python#openai-python-library)
 
