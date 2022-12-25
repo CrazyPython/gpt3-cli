@@ -50,6 +50,6 @@ curl -sSL -N \
   --data-urlencode max_tokens="$MAX_TOKENS" \
   --data-urlencode frequency_penalty="$FREQ_PENALTY" \
   --data-urlencode presence_penalty="$PRES_PENALTY" \
-  -H "Authorization: Bearer $KEY" | sed -l 's/^data: //' | grep --line-buffer -v '^\[DONE\]$' | jq -j --unbuffered '.choices[0].text' 
+  -H "Authorization: Bearer $KEY" | sed -l 0 's/^data: //' | grep --line-buffer -v '^\[DONE\]$' | jq -j --unbuffered '.choices[0].text' 
 # Add trailing newline
 echo
