@@ -41,6 +41,11 @@ set -- "${POSITIONAL[@]}" # restore positional parameter
 [ -z "$2" ] && MAX_TOKENS=64 || MAX_TOKENS="$2"
 [ -z "$OPENAI_KEY" ] && KEY="$OPENAI_API_KEY" || KEY="$OPENAI_KEY"
 
+line_buffered="-l"
+if sed --version | grep GNU >/dev/null; then
+  line_buffered="-u"
+fi
+
 # FIXME: Improve error handling
 curl -sSL -N \
   -H "gpt3-cli/0.1.1 (https://github.com/CrazyPython/gpt3-cli)" \
@@ -50,6 +55,6 @@ curl -sSL -N \
   --data-urlencode max_tokens="$MAX_TOKENS" \
   --data-urlencode frequency_penalty="$FREQ_PENALTY" \
   --data-urlencode presence_penalty="$PRES_PENALTY" \
-  -H "Authorization: Bearer $KEY" | sed -l 's/^data: //' | grep --line-buffer -v '^\[DONE\]$' | jq -j --unbuffered '.choices[0].text' 
+  -H "Authorization: Bearer $KEY" | sed $line_buffered 's/^data: //' | grep --line-buffer -v '^\[DONE\]$' | jq -j --unbuffered '.choices[0].text' 
 # Add trailing newline
 echo
