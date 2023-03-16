@@ -41,6 +41,11 @@ set -- "${POSITIONAL[@]}" # restore positional parameter
 [ -z "$2" ] && MAX_TOKENS=64 || MAX_TOKENS="$2"
 [ -z "$OPENAI_KEY" ] && KEY="$OPENAI_API_KEY" || KEY="$OPENAI_KEY"
 
+if [ -z "$KEY" ]; then
+  echo "You must set OPENAI_API_KEY or OPENAI_KEY"
+  exit 1
+fi
+
 line_buffered="-l"
 if sed --version | grep GNU >/dev/null; then
   line_buffered="-u"
