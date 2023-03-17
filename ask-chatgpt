@@ -5,27 +5,24 @@ cd "$(dirname "$(realpath "$0")")"
 
 [ -z "$COLUMNS" ] && COLUMNS="$(tput cols)"
 
-ENGINE="gpt-3.5-turbo" exec ./gpt3 "$*" |
+exec ./gpt3 --engine 'gpt-3.5-turbo' "$*" |
 
-	# Trim all empty lines?
+	# Trim all empty lines
 	#trimempty |
 	# Trim empty lines at the start of the stream
 	#sed -e '/./,$!d' |
-	# Trim empty lines at the start and end of the stream.
+	# Trim empty lines at the start and end of the stream
 	# (It also squeezes repeated empty lines in the middle of the stream. To prevent that, we could use a counter.)
 	awk '
-		BEGIN {
-			started = 0;
-			empty = 0;
-		}
+		BEGIN { started = 0; empty = 0 }
 		{
 			if (NF) {
 				if (started && empty) {
 					print "";
 				}
-				empty = 0;
-				started = 1;
 				print
+				started = 1;
+				empty = 0;
 			} else {
 				empty = 1;
 			}
