@@ -63,11 +63,11 @@ fi
 call_chat_api() {
   request_data=$(
 cat << !!!
-  {
-    "model": "${ENGINE}",
-    "messages": [{"role": "user", "content": "${PROMPT}"}],
-    "temperature": ${TEMPERATURE}
-  }
+{
+  "model": "${ENGINE}",
+  "messages": [{"role": "user", "content": "${PROMPT//\"/\\\"}"}],
+  "temperature": ${TEMPERATURE}
+}
 !!!
   )
 
