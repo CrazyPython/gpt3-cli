@@ -53,6 +53,11 @@ if [ -z "$KEY" ]; then
   exit 1
 fi
 
+if ! command -v jq >/dev/null 2>&1; then
+  echo "Please install jq (Command-line JSON processor) - instructions in README"
+  exit 1
+fi
+
 # FIXME: Improve error handling
 
 call_chat_api() {
