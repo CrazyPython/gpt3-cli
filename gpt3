@@ -53,11 +53,6 @@ if [ -z "$KEY" ]; then
   exit 1
 fi
 
-line_buffered="-l"
-if sed --version | grep GNU >/dev/null; then
-  line_buffered="-u"
-fi
-
 # FIXME: Improve error handling
 
 call_chat_api() {
@@ -104,7 +99,7 @@ call_old_api() {
     --data-urlencode max_tokens="$MAX_TOKENS" \
     --data-urlencode frequency_penalty="$FREQ_PENALTY" \
     --data-urlencode presence_penalty="$PRES_PENALTY" |
-    sed $line_buffered 's/^data: //' | grep --line-buffer -v '^\[DONE\]$' | jq -j --unbuffered '.choices[0].text' 
+    sed -u 's/^data: //' | grep --line-buffer -v '^\[DONE\]$' | jq -j --unbuffered '.choices[0].text' 
   # Add trailing newline
   echo
 }
