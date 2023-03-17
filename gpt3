@@ -2,6 +2,11 @@
 set -ef -o pipefail
 # Inherit defaults from env variables for easy scripting
 
+# Available engines (models) are listed here: https://platform.openai.com/docs/models
+# Apparently text-davinci-003 costs a lot more, and is less accurate, but I found it much faster than gpt-3.5-turbo!
+[ -z "$ENGINE" ] && ENGINE="text-davinci-003"
+#[ -z "$ENGINE" ] && ENGINE="gpt-3.5-turbo"
+
 [ -z "$ENGINE" ] && ENGINE=davinci
 [ -z "$TEMPERATURE"  ] && TEMPERATURE=0.5
 [ -z "$FREQ_PENALTY" ] && FREQ_PENALTY=0
