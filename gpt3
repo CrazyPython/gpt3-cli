@@ -49,7 +49,7 @@ set -- "${POSITIONAL[@]}" # restore positional parameter
 PROMPT="$1"
 
 if [ -z "$KEY" ]; then
-  echo "You must set OPENAI_API_KEY or OPENAI_KEY"
+  echo "You must export OPENAI_KEY or OPENAI_API_KEY.  Get one here: https://platform.openai.com/account/api-keys"
   exit 1
 fi
 
