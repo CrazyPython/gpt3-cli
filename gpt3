@@ -71,16 +71,23 @@ cat << !!!
 !!!
   )
 
+  result="$(
   # Not a GET request
   curl -sSL -N \
     https://api.openai.com/v1/chat/completions \
     -H "gpt3-cli-joeytwiddle/0.2.0 (https://github.com/CrazyPython/gpt3-cli)" \
     -H "Authorization: Bearer $KEY" \
     -H "Content-Type: application/json" \
-    -d "$request_data" |
-  jq -j --unbuffered '.choices[0].message.content'
-  # Add trailing newline
-  echo
+    -d "$request_data"
+  )"
+
+  if [[ "$result" =~ '"choices":[' ]]
+  then
+    printf "%s\n" "$result" |
+      jq -j --unbuffered '.choices[0].message.content'
+  else #[[ "$result" =~ '"error": {' ]]
+    printf "%s\n" "$result"
+  fi
 
   # Example error response:
   #     {
