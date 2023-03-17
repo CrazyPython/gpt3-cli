@@ -43,7 +43,7 @@ case $key in
 esac
 done
 set -- "${POSITIONAL[@]}" # restore positional parameter
-[ -z "$2" ] && MAX_TOKENS=64 || MAX_TOKENS="$2"
+[ -z "$2" ] && MAX_TOKENS=256 || MAX_TOKENS="$2"
 [ -z "$OPENAI_KEY" ] && KEY="$OPENAI_API_KEY" || KEY="$OPENAI_KEY"
 
 PROMPT="$1"
