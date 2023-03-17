@@ -1,0 +1,46 @@
+#!/usr/bin/env sh
+set -e
+
+cd "$(dirname "$(realpath "$0")")"
+
+[ -z "$COLUMNS" ] && COLUMNS="$(tput cols)"
+
+ENGINE="gpt-3.5-turbo" exec ./gpt3 "$*" |
+
+	# Trim all empty lines?
+	#trimempty |
+	# Trim empty lines at the start of the stream
+	#sed -e '/./,$!d' |
+	# Trim empty lines at the start and end of the stream.
+	# (It also squeezes repeated empty lines in the middle of the stream. To prevent that, we could use a counter.)
+	awk '
+		BEGIN {
+			started = 0;
+			empty = 0;
+		}
+		{
+			if (NF) {
+				if (started && empty) {
+					print "";
+				}
+				empty = 0;
+				started = 1;
+				print
+			} else {
+				empty = 1;
+			}
+		}
+	' |
+
+	# When reaching the width of the window, flow words onto the next line instead of breaking them
+	if command -v fold >/dev/null 2>&1
+	then fold -s -w "$COLUMNS"
+	else cat
+	fi |
+
+	# Assume the output is markdown, and colourise it
+	if command -v bat >/dev/null 2>&1
+	then bat --style=plain --force-colorization --language=markdown
+	else cat
+	fi
+

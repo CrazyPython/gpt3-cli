@@ -1,0 +1,8 @@
+#!/usr/bin/env sh
+set -e
+
+cd "$(dirname "$(realpath "$0")")"
+
+ENGINE="text-davinci-003" exec ./gpt3 "$*" 256 |
+	# Trim empty lines at the start of the stream
+	sed -u -e '/./,$!d'
