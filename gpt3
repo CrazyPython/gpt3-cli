@@ -71,7 +71,7 @@ cat << !!!
 !!!
   )
 
-  result="$(
+  response="$(
   # Not a GET request
   curl -sSL -N \
     https://api.openai.com/v1/chat/completions \
@@ -81,12 +81,16 @@ cat << !!!
     -d "$request_data"
   )"
 
-  if [[ "$result" =~ '"choices":[' ]]
-  then
-    printf "%s\n" "$result" |
+  result="$(
+    printf "%s\n" "$response" |
       jq -j --unbuffered '.choices[0].message.content'
-  else #[[ "$result" =~ '"error": {' ]]
+  )"
+
+  if [ -n "$result" ] && ! [ "$result" = "null" ]
+  then
     printf "%s\n" "$result"
+  else #[[ "$result" =~ '"error": {' ]]
+    printf "%s\n" "$response"
   fi
 
   # Example error response:
