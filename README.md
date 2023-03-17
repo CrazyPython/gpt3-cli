@@ -1,5 +1,9 @@
 # gpt3-cli
 Streaming command-line interface for OpenAI's GPT-3
+
+Also supports ChatGPT (non-streaming)
+
+Use the `ask-gpt3` and `ask-chatgpt` scripts for prettier formatting
 ### Usecases
  * Use GPT-3 distraction-free: Just you and the terminal
  * Command-line remembers your past prompts and output history
