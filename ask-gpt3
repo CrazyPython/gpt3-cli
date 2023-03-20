@@ -3,7 +3,7 @@ set -e
 
 cd "$(dirname "$(realpath "$0")")"
 
-exec ./gpt3 --engine 'text-davinci-003' "$*" 256 |
+exec ./gpt3 --engine 'text-davinci-003' "Q: $* A: " 256 |
 	# Trim empty lines at the start of the stream
 	# Disabled, because it stops the response from streaming
 	#sed -u -e '/./,$!d'
