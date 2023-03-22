@@ -120,7 +120,7 @@ call_old_api() {
   echo
 }
 
-if [[ "$ENGINE" =~ "gpt-3.5-turbo" ]]; then
+if [[ "$ENGINE" =~ "gpt-3.5-turbo" ]] || [[ "$ENGINE" == gpt-* ]]; then
   call_chat_api
 else
   call_old_api
