@@ -2,6 +2,11 @@
 set -ef -o pipefail
 # Inherit defaults from env variables for easy scripting
 
+# Available engines (models) are listed here: https://platform.openai.com/docs/models
+# Apparently text-davinci-003 costs a lot more, and is less accurate, but I found it much faster than gpt-3.5-turbo!
+[ -z "$ENGINE" ] && ENGINE="text-davinci-003"
+#[ -z "$ENGINE" ] && ENGINE="gpt-3.5-turbo"
+
 [ -z "$ENGINE" ] && ENGINE=davinci
 [ -z "$TEMPERATURE"  ] && TEMPERATURE=0.5
 [ -z "$FREQ_PENALTY" ] && FREQ_PENALTY=0
@@ -38,18 +43,85 @@ case $key in
 esac
 done
 set -- "${POSITIONAL[@]}" # restore positional parameter
-[ -z "$2" ] && MAX_TOKENS=64 || MAX_TOKENS="$2"
+[ -z "$2" ] && MAX_TOKENS=256 || MAX_TOKENS="$2"
 [ -z "$OPENAI_KEY" ] && KEY="$OPENAI_API_KEY" || KEY="$OPENAI_KEY"
 
+PROMPT="$1"
+
+if [ -z "$KEY" ]; then
+  echo "You must export OPENAI_KEY or OPENAI_API_KEY.  Get one here: https://platform.openai.com/account/api-keys"
+  exit 1
+fi
+
+if ! command -v jq >/dev/null 2>&1; then
+  echo "Please install jq (Command-line JSON processor) - instructions in README"
+  exit 1
+fi
+
 # FIXME: Improve error handling
-curl -sSL -N \
-  -H "gpt3-cli/0.1.1 (https://github.com/CrazyPython/gpt3-cli)" \
-  -G https://api.openai.com/v1/engines/${ENGINE}/completions/browser_stream \
-  --data-urlencode prompt="$1" \
-  --data-urlencode temperature="$TEMPERATURE" \
-  --data-urlencode max_tokens="$MAX_TOKENS" \
-  --data-urlencode frequency_penalty="$FREQ_PENALTY" \
-  --data-urlencode presence_penalty="$PRES_PENALTY" \
-  -H "Authorization: Bearer $KEY" | sed -l 's/^data: //' | grep --line-buffer -v '^\[DONE\]$' | jq -j --unbuffered '.choices[0].text' 
-# Add trailing newline
-echo
+
+call_chat_api() {
+  request_data=$(
+cat << !!!
+{
+  "model": "${ENGINE}",
+  "messages": [{"role": "user", "content": "${PROMPT//\"/\\\"}"}],
+  "temperature": ${TEMPERATURE}
+}
+!!!
+  )
+
+  response="$(
+  # Not a GET request
+  curl -sSL -N \
+    https://api.openai.com/v1/chat/completions \
+    -H "gpt3-cli-joeytwiddle/0.2.0 (https://github.com/CrazyPython/gpt3-cli)" \
+    -H "Authorization: Bearer $KEY" \
+    -H "Content-Type: application/json" \
+    -d "$request_data"
+  )"
+
+  result="$(
+    printf "%s\n" "$response" |
+      jq -j --unbuffered '.choices[0].message.content'
+  )"
+
+  if [ -n "$result" ] && ! [ "$result" = "null" ]
+  then
+    printf "%s\n" "$result"
+  else #[[ "$result" =~ '"error": {' ]]
+    printf "%s\n" "$response"
+  fi
+
+  # Example error response:
+  #     {
+  #         "error": {
+  #             "message": "you must provide a model parameter",
+  #             "type": "invalid_request_error",
+  #             "param": null,
+  #             "code": null
+  #         }
+  #     }
+}
+
+call_old_api() {
+  curl -sSL -N \
+    -G https://api.openai.com/v1/engines/${ENGINE}/completions/browser_stream \
+    -H "gpt3-cli-joeytwiddle/0.2.0 (https://github.com/CrazyPython/gpt3-cli)" \
+    -H "Authorization: Bearer $KEY" \
+    --data-urlencode model="$ENGINE" \
+    --data-urlencode prompt="$PROMPT" \
+    --data-urlencode temperature="$TEMPERATURE" \
+    --data-urlencode max_tokens="$MAX_TOKENS" \
+    --data-urlencode frequency_penalty="$FREQ_PENALTY" \
+    --data-urlencode presence_penalty="$PRES_PENALTY" |
+    sed -u 's/^data: //' | grep --line-buffer -v '^\[DONE\]$' | jq -j --unbuffered '.choices[0].text' 
+  # Add trailing newline
+  echo
+}
+
+if [[ "$ENGINE" =~ "gpt-3.5-turbo" ]] || [[ "$ENGINE" == gpt-* ]]; then
+  call_chat_api
+else
+  call_old_api
+fi
