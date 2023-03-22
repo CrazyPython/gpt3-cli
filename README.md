@@ -87,6 +87,10 @@ This concatenates the input and the prompt together, input first, prompt second,
 ## File upload via CLI
 Try [OpenAI's Python tool.](https://github.com/openai/openai-python#openai-python-library)
 
+## See also
+
+- https://github.com/TheR1D/shell_gpt (Python)
+
 ## License
 **N.B.** You have the full right to base any closed-source or open-source program on this software if it remains on your own, your company's, or your company's contractors computers and cloud servers. (In other words, you can use this to build a closed-source SaaS.) If you distribute a program to a third-party end-user, you are required to give them the source code. The requirement to share source code only applies when distributed to other people. This is the GPLv3's private use clause.
 The intent is to ensure GPT-3 developer tools remain [open-source](https://www.gnu.org/philosophy/free-sw.en.html). OpenAI asks that end-users of products that use GPT-3 products be shielded from direct API access, so this license should not impose any restriction. A copy of the private use exception is copied below:
